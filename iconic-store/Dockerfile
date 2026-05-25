@@ -1,7 +1,6 @@
 FROM node:20-alpine AS deps
 
 WORKDIR /app/iconic-store
-
 COPY iconic-store/package*.json ./
 RUN npm ci
 

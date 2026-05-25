@@ -1,7 +1,6 @@
 FROM node:20-alpine AS builder
 
 WORKDIR /app/backend
-
 COPY backend/package*.json ./
 RUN npm ci
 

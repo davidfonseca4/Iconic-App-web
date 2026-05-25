@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "seed": "ts-node-dev --transpile-only src/scripts/seedProducts.ts",
-    "start:docker": "node dist/scripts/seedProducts.js && node dist/server.js"
+    "start:docker": "node dist/server.js"
   },
   "keywords": [
     "express",

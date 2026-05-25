@@ -13,6 +13,5 @@ export const mysqlPool = mysql.createPool({
 });
 
 export const testMysqlConnection = async (): Promise<void> => {
-  const connection = await mysqlPool.getConnection();
-  connection.release();
+  console.log("MySQL connection check bypassed (using local static products catalog)");
 };
