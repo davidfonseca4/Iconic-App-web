@@ -84,7 +84,7 @@ export const createSubscriber = async (req: Request, res: Response, next: NextFu
     `;
 
     const imagesDir = "/Users/davidfonseca7/iconic/iconic-store/public/images";
-    await sendMailIfConfigured({
+    void sendMailIfConfigured({
       to: email,
       subject: "Welcome to the Syndicate | ICONIC Archives",
       html: htmlContent,

@@ -119,7 +119,7 @@ export const createCheckoutRequest = async (req: Request, res: Response, next: N
       </div>
     `;
 
-    await sendMailIfConfigured({
+    void sendMailIfConfigured({
       to: payload.email,
       subject: "ICONIC | Acquisition Request Secured",
       html: htmlContent

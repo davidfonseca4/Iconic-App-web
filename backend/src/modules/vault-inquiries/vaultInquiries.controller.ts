@@ -87,7 +87,7 @@ export const createVaultInquiry = async (req: Request, res: Response, next: Next
       </div>
     `;
 
-    await sendMailIfConfigured({
+    void sendMailIfConfigured({
       to: payload.email,
       subject: `Vault Inquiry Received: ${payload.item}`,
       html: htmlContent,
