@@ -5,7 +5,17 @@ const nodemailer = require("nodemailer") as {
     service: string;
     auth: { user: string; pass: string };
   }) => {
-    sendMail: (params: { from: string; to: string; subject: string; html: string }) => Promise<unknown>;
+    sendMail: (params: {
+      from: string;
+      to: string;
+      subject: string;
+      html: string;
+      attachments?: Array<{
+        filename: string;
+        path: string;
+        cid: string;
+      }>;
+    }) => Promise<unknown>;
   };
 };
 
