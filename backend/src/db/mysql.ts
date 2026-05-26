@@ -12,6 +12,18 @@ export const mysqlPool = mysql.createPool({
   queueLimit: 0
 });
 
+let mysqlConnected = false;
+
 export const testMysqlConnection = async (): Promise<void> => {
-  console.log("MySQL connection check bypassed (using local static products catalog)");
+  try {
+    const connection = await mysqlPool.getConnection();
+    console.log("🎉 MySQL connected successfully! Using database catalog.");
+    connection.release();
+    mysqlConnected = true;
+  } catch (error) {
+    console.warn("⚠️ MySQL connection failed. Falling back to static memory catalog.");
+    mysqlConnected = false;
+  }
 };
+
+export const isMysqlAvailable = (): boolean => mysqlConnected;

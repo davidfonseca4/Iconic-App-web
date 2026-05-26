@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isMongoConnected } from "../db/mongo";
-import { mysqlPool } from "../db/mysql";
+import { mysqlPool, isMysqlAvailable } from "../db/mysql";
 import { authRouter } from "../modules/auth/auth.routes";
 import { checkoutRequestsRouter } from "../modules/checkout-requests/checkoutRequests.routes";
 import { productsRouter } from "../modules/products/products.routes";
@@ -17,12 +17,32 @@ apiRouter.get("/health", (_req, res) => {
   });
 });
 
-apiRouter.get("/health/mysql", async (_req, res, next) => {
-  res.status(200).json({
-    ok: true,
-    database: "mysql",
-    latencyMs: 0
-  });
+apiRouter.get("/health/mysql", async (_req, res) => {
+  if (!isMysqlAvailable()) {
+    res.status(200).json({
+      ok: false,
+      database: "mysql",
+      status: "FALLBACK_STATIC",
+      message: "MySQL database offline or misconfigured, using local static products catalog"
+    });
+    return;
+  }
+
+  try {
+    const start = Date.now();
+    await mysqlPool.query("SELECT 1");
+    res.status(200).json({
+      ok: true,
+      database: "mysql",
+      latencyMs: Date.now() - start
+    });
+  } catch (err) {
+    res.status(500).json({
+      ok: false,
+      database: "mysql",
+      error: String(err)
+    });
+  }
 });
 
 apiRouter.get("/health/mongo", (_req, res) => {
